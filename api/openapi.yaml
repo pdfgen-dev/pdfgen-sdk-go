@@ -1,0 +1,555 @@
+openapi: 3.0.1
+info:
+  contact: {}
+  description: The PDFGen API for HTML to PDF generation.
+  termsOfService: http://swagger.io/terms/
+  title: PDFGen API
+  version: "1.0"
+servers:
+- url: https://api.pdfgen.dev/
+paths:
+  /v1/jobs:
+    get:
+      description: Returns all jobs
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListJobsResponse'
+          description: OK
+      security:
+      - ApiKeyAuth: []
+      summary: List all Jobs
+      tags:
+      - jobs
+  /v1/jobs/{id}/download:
+    get:
+      description: Download the file for the specified job
+      parameters:
+      - description: Job ID
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: OK
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+          description: Unauthorized
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+          description: Not Found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+          description: Internal Server Error
+      security:
+      - ApiKeyAuth: []
+      summary: Download file
+      tags:
+      - jobs
+  /v1/pdf:
+    post:
+      description: Generates a PDF based on given HTML and parameters
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.GeneratePDFRequest'
+        description: HTML and variables to be converted to PDF
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+          description: OK
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+          description: Unauthorized
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+          description: Internal Server Error
+      security:
+      - ApiKeyAuth: []
+      summary: Generate PDF
+      tags:
+      - pdf
+      x-codegen-request-body-name: req
+  /v1/templates:
+    get:
+      description: Returns all available templates
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListTemplatesResponse'
+          description: OK
+      security:
+      - ApiKeyAuth: []
+      summary: List all Templates
+      tags:
+      - templates
+    post:
+      description: Creates a new template for authenticated account and returns the
+        created template
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.CreateTemplateRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateResponse'
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+          description: Bad Request
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+          description: Unauthorized
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+          description: Internal Server Error
+      security:
+      - ApiKeyAuth: []
+      summary: Create Template
+      tags:
+      - templates
+      x-codegen-request-body-name: req
+  /v1/templates/{id}:
+    delete:
+      description: Deletes the template based on the provided ID
+      parameters:
+      - description: Template ID
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: OK
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+          description: Unauthorized
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+          description: Not Found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+          description: Internal Server Error
+      security:
+      - ApiKeyAuth: []
+      summary: Delete Template
+      tags:
+      - templates
+    get:
+      description: Returns a single template based on specified ID
+      parameters:
+      - description: Template ID
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateResponse'
+          description: OK
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+          description: Unauthorized
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+          description: Not Found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+          description: Internal Server Error
+      security:
+      - ApiKeyAuth: []
+      summary: Get Templates
+      tags:
+      - templates
+    put:
+      description: Updates a template for authenticated account and returns the updated
+        template
+      parameters:
+      - description: Template ID
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.UpdateTemplateRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateResponse'
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+          description: Bad Request
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+          description: Unauthorized
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+          description: Not Found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+          description: Internal Server Error
+      security:
+      - ApiKeyAuth: []
+      summary: Update Template
+      tags:
+      - templates
+      x-codegen-request-body-name: req
+  /v1/templates/{id}/pdf:
+    post:
+      description: Generates a PDF based on given parameters and the template for
+        provided ID
+      parameters:
+      - description: Template ID
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: object
+        description: Variables used for the template
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+          description: OK
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+          description: Unauthorized
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+          description: Not Found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+          description: Internal Server Error
+      security:
+      - ApiKeyAuth: []
+      summary: Generate PDF from Template
+      tags:
+      - templates
+      x-codegen-request-body-name: variables
+  /v1/templates/{id}/preview:
+    post:
+      description: Previews a PDF with given variables
+      parameters:
+      - description: Template ID or alias
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: object
+        description: Variables used for the template
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+          description: OK
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+          description: Unauthorized
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+          description: Not Found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+          description: Internal Server Error
+      security:
+      - ApiKeyAuth: []
+      summary: Previews PDF with given variables
+      tags:
+      - templates
+      x-codegen-request-body-name: variables
+components:
+  schemas:
+    ListJobsResponse:
+      example:
+        jobs:
+        - duration: 0
+          template:
+            last_generated: last_generated
+            name: name
+            alias: alias
+            created_at: created_at
+            html: html
+            id: id
+          updated_at: updated_at
+          file_name: file_name
+          created_at: created_at
+          template_id: template_id
+          id: id
+          status: status
+        - duration: 0
+          template:
+            last_generated: last_generated
+            name: name
+            alias: alias
+            created_at: created_at
+            html: html
+            id: id
+          updated_at: updated_at
+          file_name: file_name
+          created_at: created_at
+          template_id: template_id
+          id: id
+          status: status
+      properties:
+        jobs:
+          items:
+            $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.JobResponse'
+          type: array
+      required:
+      - jobs
+      type: object
+    ListTemplatesResponse:
+      example:
+        templates:
+        - last_generated: last_generated
+          name: name
+          alias: alias
+          created_at: created_at
+          html: html
+          id: id
+        - last_generated: last_generated
+          name: name
+          alias: alias
+          created_at: created_at
+          html: html
+          id: id
+      properties:
+        templates:
+          items:
+            $ref: '#/components/schemas/TemplateResponse'
+          type: array
+      required:
+      - templates
+      type: object
+    TemplateResponse:
+      example:
+        last_generated: last_generated
+        name: name
+        alias: alias
+        created_at: created_at
+        html: html
+        id: id
+      properties:
+        alias:
+          type: string
+        created_at:
+          type: string
+        html:
+          type: string
+        id:
+          type: string
+        last_generated:
+          type: string
+        name:
+          type: string
+      type: object
+    github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.CreateTemplateRequest:
+      properties:
+        alias:
+          description: Alias of template
+          type: string
+        html:
+          description: HTML used for generation
+          type: string
+        name:
+          description: Name of template
+          type: string
+      required:
+      - alias
+      - html
+      - name
+      type: object
+    github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse:
+      properties:
+        error_code:
+          type: integer
+        message:
+          type: string
+      type: object
+    github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.GeneratePDFRequest:
+      properties:
+        html:
+          type: string
+        variables:
+          properties: {}
+          type: object
+      required:
+      - html
+      type: object
+    github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.JobResponse:
+      example:
+        duration: 0
+        template:
+          last_generated: last_generated
+          name: name
+          alias: alias
+          created_at: created_at
+          html: html
+          id: id
+        updated_at: updated_at
+        file_name: file_name
+        created_at: created_at
+        template_id: template_id
+        id: id
+        status: status
+      properties:
+        created_at:
+          type: string
+        duration:
+          type: integer
+        file_name:
+          type: string
+        id:
+          type: string
+        status:
+          type: string
+        template:
+          $ref: '#/components/schemas/TemplateResponse'
+        template_id:
+          type: string
+        updated_at:
+          type: string
+      type: object
+    github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.UpdateTemplateRequest:
+      properties:
+        alias:
+          description: Alias of template
+          type: string
+        html:
+          description: HTML used for generation
+          type: string
+        name:
+          description: Name of template
+          type: string
+      type: object
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-Pdfgen-Api-Token
+      type: apiKey
+x-original-swagger-version: "2.0"
