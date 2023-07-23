@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 .travis.yml
 README.md
 api/openapi.yaml
@@ -31,7 +30,4 @@ model_list_jobs_response.go
 model_list_templates_response.go
 model_template_response.go
 response.go
-test/api_jobs_test.go
-test/api_pdf_test.go
-test/api_templates_test.go
 utils.go
