@@ -1,6 +1,9 @@
 openapi: 3.0.1
 info:
-  contact: {}
+  contact:
+    email: support@pdfgen.dev
+    name: PDFGen
+    url: https://www.pdfgen.dev
   description: The PDFGen API for HTML to PDF generation.
   termsOfService: http://swagger.io/terms/
   title: PDFGen API
@@ -11,6 +14,7 @@ paths:
   /v1/jobs:
     get:
       description: Returns all jobs
+      operationId: list-jobs
       responses:
         "200":
           content:
@@ -26,6 +30,7 @@ paths:
   /v1/jobs/{id}/download:
     get:
       description: Download the file for the specified job
+      operationId: download-file
       parameters:
       - description: Job ID
         in: path
@@ -44,19 +49,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Unauthorized
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Not Found
         "500":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Internal Server Error
       security:
       - ApiKeyAuth: []
@@ -66,11 +71,12 @@ paths:
   /v1/pdf:
     post:
       description: Generates a PDF based on given HTML and parameters
+      operationId: generate-pdf
       requestBody:
         content:
           '*/*':
             schema:
-              $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.GeneratePDFRequest'
+              $ref: '#/components/schemas/GeneratePDFRequest'
         description: HTML and variables to be converted to PDF
         required: true
       responses:
@@ -84,13 +90,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Unauthorized
         "500":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Internal Server Error
       security:
       - ApiKeyAuth: []
@@ -101,6 +107,7 @@ paths:
   /v1/templates:
     get:
       description: Returns all available templates
+      operationId: list-templates
       responses:
         "200":
           content:
@@ -116,11 +123,12 @@ paths:
     post:
       description: Creates a new template for authenticated account and returns the
         created template
+      operationId: create-template
       requestBody:
         content:
           '*/*':
             schema:
-              $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.CreateTemplateRequest'
+              $ref: '#/components/schemas/CreateTemplateRequest'
         required: true
       responses:
         "200":
@@ -133,19 +141,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Bad Request
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Unauthorized
         "500":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Internal Server Error
       security:
       - ApiKeyAuth: []
@@ -156,6 +164,7 @@ paths:
   /v1/templates/{id}:
     delete:
       description: Deletes the template based on the provided ID
+      operationId: delete-template
       parameters:
       - description: Template ID
         in: path
@@ -174,19 +183,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Unauthorized
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Not Found
         "500":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Internal Server Error
       security:
       - ApiKeyAuth: []
@@ -195,6 +204,7 @@ paths:
       - templates
     get:
       description: Returns a single template based on specified ID
+      operationId: get-template
       parameters:
       - description: Template ID
         in: path
@@ -213,19 +223,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Unauthorized
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Not Found
         "500":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Internal Server Error
       security:
       - ApiKeyAuth: []
@@ -235,6 +245,7 @@ paths:
     put:
       description: Updates a template for authenticated account and returns the updated
         template
+      operationId: update-template
       parameters:
       - description: Template ID
         in: path
@@ -246,7 +257,7 @@ paths:
         content:
           '*/*':
             schema:
-              $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.UpdateTemplateRequest'
+              $ref: '#/components/schemas/UpdateTemplateRequest'
         required: true
       responses:
         "200":
@@ -259,25 +270,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Bad Request
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Unauthorized
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Not Found
         "500":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Internal Server Error
       security:
       - ApiKeyAuth: []
@@ -289,6 +300,7 @@ paths:
     post:
       description: Generates a PDF based on given parameters and the template for
         provided ID
+      operationId: generate-pdf-from-template
       parameters:
       - description: Template ID
         in: path
@@ -314,19 +326,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Unauthorized
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Not Found
         "500":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Internal Server Error
       security:
       - ApiKeyAuth: []
@@ -337,6 +349,7 @@ paths:
   /v1/templates/{id}/preview:
     post:
       description: Previews a PDF with given variables
+      operationId: preview-template
       parameters:
       - description: Template ID or alias
         in: path
@@ -362,19 +375,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Unauthorized
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Not Found
         "500":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Internal Server Error
       security:
       - ApiKeyAuth: []
@@ -384,6 +397,80 @@ paths:
       x-codegen-request-body-name: variables
 components:
   schemas:
+    CreateTemplateRequest:
+      example:
+        name: name
+        alias: alias
+        html: html
+      properties:
+        alias:
+          description: Alias of template
+          type: string
+        html:
+          description: HTML used for generation
+          type: string
+        name:
+          description: Name of template
+          type: string
+      required:
+      - alias
+      - html
+      - name
+      type: object
+    ErrorResponse:
+      properties:
+        error_code:
+          type: integer
+        message:
+          type: string
+      type: object
+    GeneratePDFRequest:
+      example:
+        variables: "{}"
+        html: html
+      properties:
+        html:
+          type: string
+        variables:
+          properties: {}
+          type: object
+      required:
+      - html
+      type: object
+    JobResponse:
+      example:
+        duration: 0
+        template:
+          last_generated: last_generated
+          name: name
+          alias: alias
+          created_at: created_at
+          html: html
+          id: id
+        updated_at: updated_at
+        file_name: file_name
+        created_at: created_at
+        template_id: template_id
+        id: id
+        status: status
+      properties:
+        created_at:
+          type: string
+        duration:
+          type: integer
+        file_name:
+          type: string
+        id:
+          type: string
+        status:
+          type: string
+        template:
+          $ref: '#/components/schemas/TemplateResponse'
+        template_id:
+          type: string
+        updated_at:
+          type: string
+      type: object
     ListJobsResponse:
       example:
         jobs:
@@ -418,7 +505,7 @@ components:
       properties:
         jobs:
           items:
-            $ref: '#/components/schemas/github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.JobResponse'
+            $ref: '#/components/schemas/JobResponse'
           type: array
       required:
       - jobs
@@ -468,74 +555,11 @@ components:
         name:
           type: string
       type: object
-    github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.CreateTemplateRequest:
-      properties:
-        alias:
-          description: Alias of template
-          type: string
-        html:
-          description: HTML used for generation
-          type: string
-        name:
-          description: Name of template
-          type: string
-      required:
-      - alias
-      - html
-      - name
-      type: object
-    github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.ErrorResponse:
-      properties:
-        error_code:
-          type: integer
-        message:
-          type: string
-      type: object
-    github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.GeneratePDFRequest:
-      properties:
-        html:
-          type: string
-        variables:
-          properties: {}
-          type: object
-      required:
-      - html
-      type: object
-    github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.JobResponse:
+    UpdateTemplateRequest:
       example:
-        duration: 0
-        template:
-          last_generated: last_generated
-          name: name
-          alias: alias
-          created_at: created_at
-          html: html
-          id: id
-        updated_at: updated_at
-        file_name: file_name
-        created_at: created_at
-        template_id: template_id
-        id: id
-        status: status
-      properties:
-        created_at:
-          type: string
-        duration:
-          type: integer
-        file_name:
-          type: string
-        id:
-          type: string
-        status:
-          type: string
-        template:
-          $ref: '#/components/schemas/TemplateResponse'
-        template_id:
-          type: string
-        updated_at:
-          type: string
-      type: object
-    github_com_tcrisseapp_pdfgen_internal_handlers_restapi_utils.UpdateTemplateRequest:
+        name: name
+        alias: alias
+        html: html
       properties:
         alias:
           description: Alias of template

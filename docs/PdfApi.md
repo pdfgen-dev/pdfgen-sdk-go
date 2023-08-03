@@ -4,13 +4,13 @@ All URIs are relative to *https://api.pdfgen.dev*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**V1PdfPost**](PdfApi.md#V1PdfPost) | **Post** /v1/pdf | Generate PDF
+[**GeneratePdf**](PdfApi.md#GeneratePdf) | **Post** /v1/pdf | Generate PDF
 
 
 
-## V1PdfPost
+## GeneratePdf
 
-> map[string]interface{} V1PdfPost(ctx).Req(req).Execute()
+> map[string]interface{} GeneratePdf(ctx).Req(req).Execute()
 
 Generate PDF
 
@@ -29,17 +29,17 @@ import (
 )
 
 func main() {
-    req := *openapiclient.NewGithubComTcrisseappPdfgenInternalHandlersRestapiUtilsGeneratePDFRequest("Html_example") // GithubComTcrisseappPdfgenInternalHandlersRestapiUtilsGeneratePDFRequest | HTML and variables to be converted to PDF
+    req := *openapiclient.NewGeneratePDFRequest("Html_example") // GeneratePDFRequest | HTML and variables to be converted to PDF
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.PdfApi.V1PdfPost(context.Background()).Req(req).Execute()
+    resp, r, err := apiClient.PdfApi.GeneratePdf(context.Background()).Req(req).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `PdfApi.V1PdfPost``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `PdfApi.GeneratePdf``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `V1PdfPost`: map[string]interface{}
-    fmt.Fprintf(os.Stdout, "Response from `PdfApi.V1PdfPost`: %v\n", resp)
+    // response from `GeneratePdf`: map[string]interface{}
+    fmt.Fprintf(os.Stdout, "Response from `PdfApi.GeneratePdf`: %v\n", resp)
 }
 ```
 
@@ -49,12 +49,12 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiV1PdfPostRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiGeneratePdfRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **req** | [**GithubComTcrisseappPdfgenInternalHandlersRestapiUtilsGeneratePDFRequest**](GithubComTcrisseappPdfgenInternalHandlersRestapiUtilsGeneratePDFRequest.md) | HTML and variables to be converted to PDF | 
+ **req** | [**GeneratePDFRequest**](GeneratePDFRequest.md) | HTML and variables to be converted to PDF | 
 
 ### Return type
 
